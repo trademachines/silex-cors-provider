@@ -1,0 +1,24 @@
+{
+  "name": "trademachines/silex-cors-provider",
+  "description": "Service provider for Silex for addings CORS support",
+  "keywords": ["silex", "cors", "cross origin resource sharing", "provider"],
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "php": "^7.0",
+    "silex/silex": "^2.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "@stable"
+  },
+  "autoload": {
+    "psr-4": {
+      "Trademachines\\Silex\\Provider\\Cors\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Trademachines\\Silex\\Provider\\Cors\\Tests\\": "tests/"
+    }
+  }
+}
