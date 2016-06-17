@@ -1,5 +1,7 @@
 # Silex CORS Provider
 
+[![Build Status](https://travis-ci.org/trademachines/silex-cors-provider.svg?branch=master)](https://travis-ci.org/trademachines/silex-cors-provider)
+
 Service provider for addings CORS capabilities to Silex.
 
 ## Usage
