@@ -64,8 +64,7 @@ class CorsRoute extends Route
             $this->getPath(),
             'cors:handlePreflight'
         )->getRoute();
-        $preflightRoute->setDefaults($this->getDefaults());
-        $preflightRoute->setRequirements($this->getRequirements());
+        $preflightRoute->setRequirements($this->getCorsRequirements());
 
         if (!$preflightRoute instanceof CorsRoute) {
             throw new \RuntimeException(
@@ -74,7 +73,7 @@ class CorsRoute extends Route
         }
 
         $preflightRoute->realRoute = $this;
-        $this->cors           = $cors;
+        $this->cors                = $cors;
         $this->after('cors:handleSimple');
 
         return $this;
@@ -94,5 +93,16 @@ class CorsRoute extends Route
     public function getRealRoute()
     {
         return $this->realRoute;
+    }
+
+    private function getCorsRequirements()
+    {
+        return array_filter(
+            $this->getRequirements(),
+            function ($k) {
+                return $k[0] !== '_';
+            },
+            ARRAY_FILTER_USE_KEY
+        );
     }
 }

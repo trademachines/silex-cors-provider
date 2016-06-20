@@ -43,13 +43,11 @@ class CorsRouteTest extends \PHPUnit_Framework_TestCase
     public function testUseSameSettings()
     {
         $path         = '/some/path';
-        $defaults     = ['route' => 'defaults'];
         $requirements = ['route' => 'requirements'];
 
         $controllerCollection = new CorsControllerCollection(new CorsRoute());
         $route                = new CorsRoute();
         $route->setPath($path);
-        $route->setDefaults($defaults);
         $route->setRequirements($requirements);
         $route->setControllerCollection($controllerCollection);
         $route->cors(new Cors());
@@ -57,8 +55,25 @@ class CorsRouteTest extends \PHPUnit_Framework_TestCase
         $corsRoute = $this->getCorsRouteFromCollection($controllerCollection);
 
         self::assertEquals($path, $corsRoute->getPath());
-        self::assertEquals($defaults, $corsRoute->getDefaults());
         self::assertEquals($requirements, $corsRoute->getRequirements());
+    }
+    
+    public function testFilterMagicRequirements()
+    {
+        $path         = '/some/path';
+        $requirements = ['_route' => 'requirements'];
+
+        $controllerCollection = new CorsControllerCollection(new CorsRoute());
+        $route                = new CorsRoute();
+        $route->setPath($path);
+        $route->setRequirements($requirements);
+        $route->setControllerCollection($controllerCollection);
+        $route->cors(new Cors());
+
+        $corsRoute = $this->getCorsRouteFromCollection($controllerCollection);
+
+        self::assertEquals($path, $corsRoute->getPath());
+        self::assertEmpty($corsRoute->getRequirements());
     }
 
     public function testHoldReferenceToInitialRoute()
