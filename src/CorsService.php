@@ -11,7 +11,6 @@
 
 namespace Trademachines\Silex\Provider\Cors;
 
-use Psr\Log\LoggerInterface;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,7 +36,7 @@ class CorsService
 
     /**
      * @param Request $request
-     * 
+     *
      * @return Response
      */
     public function handlePreflight(Request $request)
@@ -48,8 +47,9 @@ class CorsService
             $this->doHandle(
                 $request,
                 $response,
-                function (Response $response, CorsRoute $route) {
+                function (Response $response, CorsRoute $route, Cors $cors) use ($request) {
                     $response->headers->set('Access-Control-Allow-Methods', implode(', ', $route->getMethods()));
+                    $response->headers->set('Access-Control-Allow-Headers', $cors->getAllowHeaders() ?: $request->headers->get('Access-Control-Request-Headers'));
                 }
             );
         }

@@ -25,6 +25,9 @@ class Cors
     /** @var bool */
     private $allowCredentials = false;
 
+    /** @var array|string[] */
+    private $allowHeaders = null;
+
     /**
      * @param string $origin
      * 
@@ -61,6 +64,11 @@ class Cors
         return $this;
     }
 
+    public function allowHeaders(array $headers)
+    {
+        $this->allowHeaders = $headers;
+    }
+
     /**
      * @return bool
      */
@@ -83,5 +91,13 @@ class Cors
     public function getAllowRegexOrigins()
     {
         return $this->allowRegexOrigins;
+    }
+
+    /**
+     * @return array]string[]
+     */
+    public function getAllowHeaders()
+    {
+        return $this->allowHeaders;
     }
 }

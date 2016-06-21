@@ -62,9 +62,10 @@ class CorsServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideCorsWithOrigin
      */
-    public function testSetMandatoryHeadersIfPreflightIsOk($cors)
+    public function testSetMandatoryHeadersIfPreflightIsOk(Cors $cors)
     {
         $origin = 'http://sub.domain.com';
+        $cors->allowHeaders(['accept']);
         list($routes, $request) = $this->getPreflightRequestInfo($cors, ['Origin' => $origin]);
 
         $service  = new CorsService($routes);
@@ -72,6 +73,7 @@ class CorsServiceTest extends \PHPUnit_Framework_TestCase
 
         self::assertEquals($origin, $response->headers->get('Access-Control-Allow-Origin'));
         self::assertEquals('PUT', $response->headers->get('Access-Control-Allow-Methods'));
+        self::assertEquals('accept', $response->headers->get('Access-Control-Allow-Headers'));
     }
 
     /**
